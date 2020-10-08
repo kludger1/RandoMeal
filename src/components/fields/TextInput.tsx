@@ -1,29 +1,27 @@
 import React from "react";
-import {View, StyleSheet, TextInput, Text, TextInputProps} from "react-native";
+import {View, StyleSheet, TextInput, TextInputProps} from "react-native";
 import {COLORS} from "../../styles/global";
+import FieldLabel from "./FieldLabel";
+import FieldErrorMessage from "./FieldErrorMessage";
 
 
 
 export interface TextFieldProps extends TextInputProps {
     label: string;
+    errorMessage?: string;
 }
 
-const TextField: React.FC<TextFieldProps> = ({label, ...props}) =>  (
+const TextField: React.FC<TextFieldProps> = ({label, errorMessage , ...props}) =>  (
     <View style={styles.wrapper}>
-        <Text style={styles.label}>{label}</Text>
+        <FieldLabel label={label}/>
         <TextInput style={styles.textInput} {...props}/>
+        <FieldErrorMessage message={errorMessage}/>
     </View>
 )
 
 const styles = StyleSheet.create({
     wrapper: {
         marginTop: 10
-    },
-    label: {
-        fontSize: 17,
-        fontWeight: 'bold',
-        color: COLORS.SECONDARY,
-        marginBottom: 5
     },
     textInput: {
         padding: 10,

@@ -3,7 +3,7 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {ROUTES} from "../routes";
 import {COLORS} from "../styles/global";
-import GroceriesScreen from "../screens/GroceriesScreen";
+import GroceriesScreen from "../screens/groceries/GroceriesScreen";
 import RandomizeScreen from "../screens/RandomizeScreen";
 import MealPlanScreen from "../screens/MealPlanScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";

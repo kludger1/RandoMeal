@@ -10,7 +10,7 @@ export interface CheckBoxItemProps {
 }
 
 export interface CheckBoxProps {
-    onPress: (key: number) => void
+    onPress: (item: CheckBoxItemProps) => void
     item: CheckBoxItemProps
 }
 
@@ -19,7 +19,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({ item, onPress}) =>  {
 
     const handleChecked = () => {
         setChecked(!checked)
-        onPress(item.key)
+        onPress(item)
     }
     return (
         <TouchableWithoutFeedback key={item.key} onPress={handleChecked}>
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     box: {
-        width: 30,
-        height: 30,
+        width: 29,
+        height: 29,
         marginRight: 10,
         justifyContent: 'center',
         alignItems: 'center',
@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
         borderColor: COLORS.SECONDARY
     },
     fill: {
-        width: 22,
-        height: 22,
+        width: 21,
+        height: 21,
         backgroundColor: COLORS.SECONDARY,
     },
     label: {

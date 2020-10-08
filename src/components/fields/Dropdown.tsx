@@ -1,6 +1,8 @@
 import React, {Dispatch, SetStateAction, useState} from "react";
 import {View, StyleSheet, Text, TouchableWithoutFeedback} from "react-native";
 import {COLORS} from "../../styles/global";
+import FieldLabel from "./FieldLabel";
+import FieldErrorMessage from "./FieldErrorMessage";
 
 export interface DropdownProps  {
     label: string;
@@ -8,6 +10,7 @@ export interface DropdownProps  {
     options: DropdownItemProps[];
     onValueChange: any;
     placeHolder?: string;
+    errorMessage?: string;
 
 }
 export interface DropdownItemProps  {
@@ -68,7 +71,8 @@ const Dropdown: React.FC<DropdownProps> =
          selectedValue,
          options,
          onValueChange,
-         placeHolder= ''
+         placeHolder= '',
+         errorMessage
      }) =>  {
 
         const [toggleList, setToggleList] = useState(false)
@@ -82,7 +86,7 @@ const Dropdown: React.FC<DropdownProps> =
 
         return (
             <View style={styles.wrapper}>
-                <Text style={styles.label}>{label}</Text>
+                <FieldLabel label={label}/>
                 <DropdownButton
                     setToggleList={setToggleList}
                     toggleList={toggleList}
@@ -94,6 +98,7 @@ const Dropdown: React.FC<DropdownProps> =
                     options={options}
                     onSelect={handleSelect}
                 />
+                <FieldErrorMessage message={errorMessage}/>
             </View>
         )
     }
@@ -102,12 +107,6 @@ const Dropdown: React.FC<DropdownProps> =
 const styles = StyleSheet.create({
     wrapper: {
         marginTop: 10
-    },
-    label: {
-        fontSize: 17,
-        fontWeight: 'bold',
-        color: COLORS.SECONDARY,
-        marginBottom: 5
     },
     dropdown: {
         flexDirection: 'row',

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import {Text, View, StyleSheet} from "react-native";
-import {COLORS} from "../../styles/global";
+import {View, StyleSheet} from "react-native";
 import CheckBox, {CheckBoxItemProps} from "./CheckBox";
+import FieldLabel from "./FieldLabel";
 
 export interface CheckBoxListProps {
     label: string;
@@ -12,20 +12,20 @@ export interface CheckBoxListProps {
 const CheckBoxList: React.FC<CheckBoxListProps> = ({label, defaultValues, onValueChange}) =>  {
     const [currentList, setCurrentList] = useState<CheckBoxItemProps[]>(defaultValues)
 
-    // const removeElement = (key: number) => {
-    //     checkedList[key]
-    // }
-
-    const updateList = (key: number) => {
-        console.log(key);
-        const updatedList = currentList.map(item => item.key === key ? {...item, checked: !item.checked} : item)
+    const updateList = (checkboxItem: CheckBoxItemProps) => {
+        const updatedList = currentList.map(currentListItem => {
+            if(currentListItem.key === checkboxItem.key) {
+                return {...currentListItem, checked: !currentListItem.checked}
+            }
+            return currentListItem
+        })
         setCurrentList(updatedList);
         onValueChange(updatedList)
     }
-    console.log(currentList)
+
     return (
         <View style={styles.wrapper}>
-            <Text style={styles.label}>{label}</Text>
+            <FieldLabel label={label}/>
             {currentList.map(item => (
                 <CheckBox key={item.key} item={item} onPress={updateList}/>
             ))}
@@ -36,12 +36,6 @@ const CheckBoxList: React.FC<CheckBoxListProps> = ({label, defaultValues, onValu
 const styles = StyleSheet.create({
     wrapper: {
         marginTop: 10
-    },
-    label: {
-        fontSize: 17,
-        fontWeight: 'bold',
-        color: COLORS.SECONDARY,
-        marginBottom: 5
     },
 });
 
