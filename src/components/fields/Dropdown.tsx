@@ -77,7 +77,7 @@ const Dropdown: React.FC<DropdownProps> =
         const handleSelect = (item: DropdownItemProps) => {
             setSelected(item)
             setToggleList(false)
-            onValueChange(item.value)
+            onValueChange(item)
         }
 
         return (
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     label: {
-        fontSize: 15,
+        fontSize: 17,
         fontWeight: 'bold',
         color: COLORS.SECONDARY,
         marginBottom: 5

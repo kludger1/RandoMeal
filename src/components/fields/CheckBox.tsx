@@ -1,41 +1,65 @@
-import React from "react";
-import {Text, View, StyleSheet} from "react-native";
+import React, {useState} from "react";
+import {Text, View, StyleSheet, TouchableWithoutFeedback} from "react-native";
 import {COLORS} from "../../styles/global";
 
-export interface CheckBoxProps {
+export interface CheckBoxItemProps {
+    key: number;
     label: string;
+    value: string | number;
+    checked: boolean
 }
 
-const CheckBox: React.FC<CheckBoxProps> = ({label}) =>  (
-    <View style={styles.wrapper}>
-        <View style={styles.header}>
-            <Text style={styles.label}>{label}</Text>
-        </View>
-    </View>
-)
+export interface CheckBoxProps {
+    onPress: (key: number) => void
+    item: CheckBoxItemProps
+}
+
+const CheckBox: React.FC<CheckBoxProps> = ({ item, onPress}) =>  {
+    const [checked, setChecked] = useState(item.checked)
+
+    const handleChecked = () => {
+        setChecked(!checked)
+        onPress(item.key)
+    }
+    return (
+        <TouchableWithoutFeedback key={item.key} onPress={handleChecked}>
+            <View style={styles.wrapper}>
+                <View style={styles.box}>
+                    {checked && <View style={styles.fill}/>}
+                </View>
+                <Text style={styles.label}>{item.label}</Text>
+            </View>
+        </TouchableWithoutFeedback>
+    )
+}
 
 const styles = StyleSheet.create({
     wrapper: {
-        width: 375,
-        marginBottom: 10
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 5
     },
-    header: {
-        padding: 5,
+    box: {
+        width: 30,
+        height: 30,
+        marginRight: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 3,
+        borderStyle: 'solid',
+        borderColor: COLORS.SECONDARY
+    },
+    fill: {
+        width: 22,
+        height: 22,
         backgroundColor: COLORS.SECONDARY,
     },
     label: {
         fontSize: 17,
         fontWeight: 'bold',
-        textAlign: 'center',
-        color: COLORS.WHITE,
+        color: COLORS.SECONDARY
     },
-    foodItem: {
-        paddingVertical: 5,
-    },
-    foodItemName: {
-        fontSize: 15,
-        fontWeight: 'bold',
-    }
+
 });
 
 export default CheckBox

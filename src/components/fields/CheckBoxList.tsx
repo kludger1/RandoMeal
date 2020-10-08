@@ -1,41 +1,48 @@
-import React from "react";
+import React, {useState} from "react";
 import {Text, View, StyleSheet} from "react-native";
 import {COLORS} from "../../styles/global";
+import CheckBox, {CheckBoxItemProps} from "./CheckBox";
 
 export interface CheckBoxListProps {
     label: string;
+    defaultValues: CheckBoxItemProps[]
+    onValueChange: any;
 }
 
-const CheckBoxList: React.FC<CheckBoxListProps> = ({label}) =>  (
-    <View style={styles.wrapper}>
-        <View style={styles.header}>
+const CheckBoxList: React.FC<CheckBoxListProps> = ({label, defaultValues, onValueChange}) =>  {
+    const [currentList, setCurrentList] = useState<CheckBoxItemProps[]>(defaultValues)
+
+    // const removeElement = (key: number) => {
+    //     checkedList[key]
+    // }
+
+    const updateList = (key: number) => {
+        console.log(key);
+        const updatedList = currentList.map(item => item.key === key ? {...item, checked: !item.checked} : item)
+        setCurrentList(updatedList);
+        onValueChange(updatedList)
+    }
+    console.log(currentList)
+    return (
+        <View style={styles.wrapper}>
             <Text style={styles.label}>{label}</Text>
+            {currentList.map(item => (
+                <CheckBox key={item.key} item={item} onPress={updateList}/>
+            ))}
         </View>
-    </View>
-)
+    )
+}
 
 const styles = StyleSheet.create({
     wrapper: {
-        width: 375,
-        marginBottom: 10
-    },
-    header: {
-        padding: 5,
-        backgroundColor: COLORS.SECONDARY,
+        marginTop: 10
     },
     label: {
         fontSize: 17,
         fontWeight: 'bold',
-        textAlign: 'center',
-        color: COLORS.WHITE,
+        color: COLORS.SECONDARY,
+        marginBottom: 5
     },
-    foodItem: {
-        paddingVertical: 5,
-    },
-    foodItemName: {
-        fontSize: 15,
-        fontWeight: 'bold',
-    }
 });
 
 export default CheckBoxList
