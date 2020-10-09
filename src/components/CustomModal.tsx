@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     backDrop: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'rgba(45,45,45,0.34)'
+        justifyContent: 'center',
+        backgroundColor: 'rgba(45,45,45,0.9)'
     },
     modalView: {
         width: 370,

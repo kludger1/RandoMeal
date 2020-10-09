@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import FoodGroup from "../../components/FoodGroup";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import {FakeData} from "../../FakeData";
 import CustomModal from "../../components/CustomModal";
+import GlobalDataContext from "../../context/global/GlobalDataContext";
 
 export interface GroceriesFoodItem {
     name: string;
@@ -23,21 +24,28 @@ export interface GroceriesFoodItem {
 }
 
 const GroceriesScreen: React.FC = () =>  {
+    const {getGroceries, groceries} = useContext(GlobalDataContext)
+    const [currentGroceries, setCurrentGroceries] = useState()
     const [modalVisible, setModalVisible] = useState(false);
+
+    useEffect(()=> {
+        getGroceries()
+    }, [])
     return (
         <ScreenWrapper>
             <View>
                 <View style={styles.header}>
                     <View style={styles.headerButtons}>
                         <TouchableOpacity onPress={()=> setModalVisible(true)}><Text>Add</Text></TouchableOpacity>
-                        <TouchableOpacity><Text>Edit</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={getGroceries}><Text>Edit</Text></TouchableOpacity>
                     </View>
                 </View>
+                {groceries &&
                 <FlatList
-                    data={FakeData.foodGroups}
+                    data={groceries}
                     renderItem={({item}) => <FoodGroup label={item.label} foodList={item.foodList}/>}
                     keyExtractor={item => item.key.toString()}
-                />
+                />}
             </View>
             <CustomModal title="Add Food" modalVisible={modalVisible} setModalVisible={setModalVisible}/>
         </ScreenWrapper>

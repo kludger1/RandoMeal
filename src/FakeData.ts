@@ -49,3 +49,41 @@ export const FakeData = {
         },
     ]
 }
+
+export const DATA = {
+    mealCategory: [
+        {key: 1, label: 'Breakfast', value: 'breakfast'},
+        {key: 2, label: 'Lunch', value: 'lunch'},
+        {key: 3, label: 'Dinner', value: 'dinner'},
+        {key: 4, label: 'Snack', value: 'snack'},
+    ],
+    foods: [
+        {key: 1, name: 'Yogurt', foodGroupKey: 5, calories: 100, mealCategory: [1,2,4]},
+        {key: 2, name: 'Cheese', foodGroupKey: 5, calories: 209, mealCategory: [1,2,3]},
+        {key: 3, name: 'Milk', foodGroupKey: 5, calories: 100, mealCategory: [1,2,4]},
+        {key: 4, name: 'Salmon', foodGroupKey: 4, calories: 200, mealCategory: [1,2,4]},
+        {key: 5, name: 'Shrimp', foodGroupKey: 4, calories: 250, mealCategory: [1,2,3,4]},
+        {key: 6, name: 'Eggs', foodGroupKey: 4, calories: 50, mealCategory: [1,2,4]},
+        {key: 7, name: 'Whole Grain Bread', foodGroupKey: 3, calories: 100, mealCategory: [1,2,3]},
+        {key: 8, name: 'Whole Grains Pasta', foodGroupKey: 3, calories: 120, mealCategory: [1,2,3]},
+        {key: 9, name: 'Whole Grain Rice', foodGroupKey: 3, calories: 110, mealCategory: [1,2,3]},
+        {key: 10, name: 'Broccoli', foodGroupKey: 1, calories: 50, mealCategory: [1,2,4]},
+        {key: 11, name: 'Kale', foodGroupKey: 1, calories: 50, mealCategory: [1,2,4]},
+        {key: 12, name: 'Spinach', foodGroupKey: 1, calories: 50, mealCategory: [1,2,4]},
+    ],
+    foodGroups: [
+        {key: 1, label: 'Vegetables', value: 'vegetables'},
+        {key: 2, label: 'Fruits', value: 'fruits'},
+        {key: 3, label: 'Grains', value: 'grains'},
+        {key: 4, label: 'Protein', value: 'protein'},
+        {key: 5, label: 'Dairy', value: 'dairy'},
+        {key: 6, label: 'Other', value: 'other'},
+    ],
+    meals:[
+        {key: 1, week: 1, day: 1, mealCategory: 1, foodList: [6,12,7], favorite: true},
+    ],
+    favoriteMeals: [1],
+    groceries: [],
+    getGroceries: () => {},
+    addFood: (food) => {}
+}

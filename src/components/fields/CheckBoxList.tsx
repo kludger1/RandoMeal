@@ -5,22 +5,35 @@ import FieldLabel from "./FieldLabel";
 
 export interface CheckBoxListProps {
     label: string;
-    defaultValues: CheckBoxItemProps[]
+    options: CheckBoxItemProps[];
+    defaultKeys: number[] | null;
     onValueChange: any;
 }
 
-const CheckBoxList: React.FC<CheckBoxListProps> = ({label, defaultValues, onValueChange}) =>  {
-    const [currentList, setCurrentList] = useState<CheckBoxItemProps[]>(defaultValues)
+const CheckBoxList: React.FC<CheckBoxListProps> = ({label, options, defaultKeys, onValueChange}) =>  {
+
+    const formatDefaultOptions = (keys: number[]) => {
+        return options.map((item, index) => {
+            return item.key === keys[index] ? {...item, checked: true} : {...item, checked: false}
+        })
+    }
+
+    const defaultOptions = defaultKeys && formatDefaultOptions(defaultKeys)
+    const [currentList, setCurrentList] = useState<CheckBoxItemProps[]>(defaultOptions || options)
 
     const updateList = (checkboxItem: CheckBoxItemProps) => {
+        const checkedKeys: number[] = []
+
         const updatedList = currentList.map(currentListItem => {
             if(currentListItem.key === checkboxItem.key) {
                 return {...currentListItem, checked: !currentListItem.checked}
             }
             return currentListItem
         })
+
+        updatedList.map(currentListItem => currentListItem.checked && checkedKeys.push(currentListItem.key))
         setCurrentList(updatedList);
-        onValueChange(updatedList)
+        onValueChange(checkedKeys)
     }
 
     return (

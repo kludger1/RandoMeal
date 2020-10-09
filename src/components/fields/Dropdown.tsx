@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {View, StyleSheet, Text, TouchableWithoutFeedback} from "react-native";
 import {COLORS} from "../../styles/global";
 import FieldLabel from "./FieldLabel";
@@ -6,7 +6,7 @@ import FieldErrorMessage from "./FieldErrorMessage";
 
 export interface DropdownProps  {
     label: string;
-    selectedValue: DropdownItemProps | null;
+    defaultValueKey: number | null;
     options: DropdownItemProps[];
     onValueChange: any;
     placeHolder?: string;
@@ -68,7 +68,7 @@ const DropdownList: React.FC<DropdownListProps>= ({toggleList, options, onSelect
 const Dropdown: React.FC<DropdownProps> =
     ({
          label,
-         selectedValue,
+         defaultValueKey,
          options,
          onValueChange,
          placeHolder= '',
@@ -76,13 +76,23 @@ const Dropdown: React.FC<DropdownProps> =
      }) =>  {
 
         const [toggleList, setToggleList] = useState(false)
-        const [selected, setSelected]  = useState<DropdownItemProps | null>(selectedValue)
+        const [selected, setSelected]  = useState<DropdownItemProps | null>(null)
 
         const handleSelect = (item: DropdownItemProps) => {
             setSelected(item)
             setToggleList(false)
-            onValueChange(item)
+            onValueChange(item.key)
         }
+
+        const fetchItem = (key: number) => {
+            return options.find(item => item.key === key);
+        }
+
+        useEffect(()=> {
+            if(defaultValueKey){
+                setSelected(fetchItem(defaultValueKey) || null)
+            }
+        },[])
 
         return (
             <View style={styles.wrapper}>

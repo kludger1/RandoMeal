@@ -6,7 +6,7 @@ export interface CheckBoxItemProps {
     key: number;
     label: string;
     value: string | number;
-    checked: boolean
+    checked?: boolean
 }
 
 export interface CheckBoxProps {
