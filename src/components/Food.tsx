@@ -9,11 +9,16 @@ export interface FoodItemProps {
 }
 
 const Food: React.FC<FoodItemProps> = ({foodKey, name}) =>  {
-    const {getGroceries, deleteFood, groceriesEditMode} = useContext(GlobalDataContext)
+    const {getGroceries, deleteFood, setSelectedFood, toggleGroceriesModal, groceriesEditMode} = useContext(GlobalDataContext)
 
     const handleDelete = () => {
         deleteFood(foodKey)
         getGroceries()
+    }
+
+    const handleEdit = () => {
+        setSelectedFood(foodKey)
+        toggleGroceriesModal()
     }
 
     return (
@@ -27,7 +32,7 @@ const Food: React.FC<FoodItemProps> = ({foodKey, name}) =>  {
                 <Text style={styles.name}>{name}</Text>
             </View>
             {groceriesEditMode &&
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleEdit}>
                 <Text style={styles.edit}>edit</Text>
             </TouchableOpacity>
             }

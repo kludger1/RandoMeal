@@ -5,6 +5,7 @@ import ScreenWrapper from "../../components/ScreenWrapper";
 import CustomModal from "../../components/CustomModal";
 import GlobalDataContext from "../../context/global/GlobalDataContext";
 import FoodForm from "./form/FoodForm";
+import _ from "lodash";
 
 export interface GroceriesFoodItem {
     name: string;
@@ -27,15 +28,32 @@ export interface GroceriesFoodItem {
 // }
 
 const GroceriesScreen: React.FC = () =>  {
-    const {getGroceries, groceryList, groceriesModalVisible, toggleGroceriesEditMode, toggleGroceriesModal} = useContext(GlobalDataContext)
+    const {
+        selectedFood,
+        getGroceries,
+        groceryList,
+        groceriesEditMode,
+        groceriesModalVisible,
+        toggleGroceriesEditMode,
+        toggleGroceriesModal
+    } = useContext(GlobalDataContext)
 
+    const editFormMode = !_.isEmpty(selectedFood)  && groceriesEditMode
+    const headerTitle = editFormMode ? 'Edit Food' : 'Add Food'
 
+    const handleCloseModal = () => {
+        toggleGroceriesEditMode()
+        toggleGroceriesModal()
+        getGroceries()
+    }
 
 
     useEffect(()=> {
         getGroceries()
-
     }, [])
+
+
+
 
     return (
         <ScreenWrapper>
@@ -52,7 +70,7 @@ const GroceriesScreen: React.FC = () =>  {
                     keyExtractor={item => item.key}
                 />
             </View>
-            <CustomModal title="Add Food" modalVisible={groceriesModalVisible} setModalVisible={toggleGroceriesModal}>
+            <CustomModal title={headerTitle} modalVisible={groceriesModalVisible} closeModal={handleCloseModal}>
                 <FoodForm/>
             </CustomModal>
         </ScreenWrapper>

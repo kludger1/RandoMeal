@@ -8,10 +8,10 @@ export interface CustomModalProps {
     title: string;
     children: React.ReactNode;
     modalVisible: boolean;
-    setModalVisible: () => void;
+    closeModal: () => void;
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({title,children, modalVisible, setModalVisible}) =>  {
+const CustomModal: React.FC<CustomModalProps> = ({title,children, modalVisible, closeModal}) =>  {
     return (
         <Modal
             animationType="slide"
@@ -25,7 +25,7 @@ const CustomModal: React.FC<CustomModalProps> = ({title,children, modalVisible, 
                             <Text style={styles.headerText}>{title}</Text>
                             <TouchableHighlight
                                 onPress={() => {
-                                    setModalVisible();
+                                    closeModal();
                                 }}
                             >
                                 <Text style={styles.headerText}>X</Text>

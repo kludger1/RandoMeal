@@ -9,6 +9,7 @@ import PrimaryButton from "../../../components/buttons/PrimaryButton";
 import {DATA, FoodProps} from "../../../FakeData";
 import GlobalDataContext from "../../../context/global/GlobalDataContext";
 import { v4 as uuid } from 'uuid'
+import _ from "lodash";
 
 
 export interface FoodFormProps  {
@@ -17,7 +18,19 @@ export interface FoodFormProps  {
 
 
 const FoodForm: React.FC<FoodFormProps> = () =>  {
-    const {addFood, getGroceries, toggleGroceriesModal} = useContext(GlobalDataContext)
+    const {
+        addFood,
+        editFood,
+        getGroceries,
+        selectedFood,
+        groceriesEditMode,
+        toggleGroceriesModal,
+        toggleGroceriesEditMode
+    } = useContext(GlobalDataContext)
+
+
+    const editFormMode = !_.isEmpty(selectedFood)  && groceriesEditMode
+    const buttonTitle = editFormMode ? 'Save' : 'Add'
 
     const  initialValue = {
         key: '',
@@ -28,9 +41,10 @@ const FoodForm: React.FC<FoodFormProps> = () =>  {
     }
 
     const handleSubmit = (values: FoodProps, actions: { resetForm: () => void; }) => {
-        addFood({...values, key: uuid()})
+        editFormMode ? editFood(values) :  addFood({...values, key: uuid()})
         getGroceries()
         actions.resetForm()
+        toggleGroceriesEditMode()
         toggleGroceriesModal()
         console.log(values)
 
@@ -39,7 +53,7 @@ const FoodForm: React.FC<FoodFormProps> = () =>  {
 
     return (
         <Formik
-            initialValues={initialValue}
+            initialValues={editFormMode ? selectedFood : initialValue}
             onSubmit={handleSubmit}
             validationSchema={groceriesFoodItemSchema}
         >
@@ -71,9 +85,9 @@ const FoodForm: React.FC<FoodFormProps> = () =>  {
                         label="How Many Calories?"
                         placeholder="100"
                         keyboardType="numeric"
-                        onChangeText={handleChange('calories')}
+                        onChangeText={value => setFieldValue('calories', parseInt(value))}
                         onBlur={handleBlur('calories')}
-                        value={values.calories}
+                        value={values.calories.toString()}
                         errorMessage={errors.calories}
                     />
                     <CheckBoxList
@@ -83,7 +97,7 @@ const FoodForm: React.FC<FoodFormProps> = () =>  {
                         defaultKeys={values.mealCategoryKeys}
                     />
                     <View style={styles.addButtonWrapper}>
-                        <PrimaryButton  title="Add" onPress={()=> handleSubmit() }/>
+                        <PrimaryButton  title={buttonTitle} onPress={()=> handleSubmit() }/>
                     </View>
                 </>
             )}

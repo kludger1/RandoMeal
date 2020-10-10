@@ -18,6 +18,7 @@ const CheckBoxList: React.FC<CheckBoxListProps> = ({label, options, defaultKeys,
     }
 
     const defaultOptions = defaultKeys && formatDefaultOptions(defaultKeys)
+
     const [currentList, setCurrentList] = useState<CheckBoxItemProps[]>(defaultOptions || options)
 
     const updateList = (checkboxItem: CheckBoxItemProps) => {

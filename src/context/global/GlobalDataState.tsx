@@ -23,6 +23,13 @@ const GlobalDataState = (props: any) => {
         })
     }
 
+    const setSelectedFood = (key: string) => {
+        dispatch({
+            type: Types.SET_SELECTED_FOOD,
+            payload: key
+        })
+    }
+
     const getGroceries = () => {
         dispatch({
             type: Types.GET_GROCERIES,
@@ -55,12 +62,14 @@ const GlobalDataState = (props: any) => {
     return (
         <GlobalDataContext.Provider value={{
             foods: state.foods,
+            selectedFood: state.selectedFood,
             foodGroups: state.foodGroups,
             groceryList: state.groceryList,
             groceriesEditMode: state.groceriesEditMode,
             groceriesModalVisible: state.groceriesModalVisible,
             toggleGroceriesEditMode,
             toggleGroceriesModal,
+            setSelectedFood,
             getGroceries,
             addFood,
             editFood,

@@ -1,6 +1,7 @@
 import { Types } from '../types'
 import {FoodGroupProps, FoodProps, GlobalDataProps} from "../../FakeData";
 
+
 const formatGroceryList = (state: GlobalDataProps) => (
     state.foodGroups.map((foodGroup: FoodGroupProps) => {
         const foodList = state.foods.filter((food: FoodProps) => food.foodGroupKey === foodGroup.key)
@@ -26,10 +27,17 @@ export default (state: any, action: any) => {
                 ...state,
                 groceriesEditMode: !state.groceriesEditMode
             }
+        case Types.SET_SELECTED_FOOD:
+            const firstResult = 0
+            return {
+                ...state,
+                selectedFood: state.foods.filter((food: FoodProps) => food.key === action.payload)[firstResult]
+            }
         case Types.GET_GROCERIES:
             return {
                 ...state,
-                groceryList: formatGroceryList(state)
+                groceryList: formatGroceryList(state),
+                selectedFood: {}
             }
         case Types.ADD_FOOD:
             return {
@@ -37,11 +45,16 @@ export default (state: any, action: any) => {
                 foods: [...state.foods, action.payload]
             }
         case Types.EDIT_FOOD:
+            const updatedFood = action.payload
+            const updatedFoods = state.foods.map((food: FoodProps) => {
+                if(food.key === updatedFood.key){
+                    return updatedFood
+                }
+                return food
+            })
             return {
                 ...state,
-                foods: state.foods.map((food: FoodProps) =>  {
-                    food.key === action.payload.key ? action.payload : food
-                })
+                foods: updatedFoods
             }
         case Types.DELETE_FOOD:
             return {
