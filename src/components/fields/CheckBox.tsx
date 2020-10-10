@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, TouchableWithoutFeedback} from "react-native";
 import {COLORS} from "../../styles/global";
 
 export interface CheckBoxItemProps {
-    key: number;
+    key: string;
     label: string;
     value: string | number;
     checked?: boolean

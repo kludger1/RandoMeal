@@ -1,42 +1,52 @@
-import {
-    GET_GROCERIES,
-    GET_ALL_FOODS,
-    GET_FOOD,
-    ADD_FOOD,
-    UPDATE_FOOD,
-    REMOVE_FOOD,
-    GET_ALL_MEALS,
-    GET_MEAL,
-    ADD_MEAL,
-    UPDATE_MEAL,
-    REMOVE_MEAL,
-} from '../types'
+import { Types } from '../types'
+import {FoodGroupProps, FoodProps, GlobalDataProps} from "../../FakeData";
+
+const formatGroceryList = (state: GlobalDataProps) => (
+    state.foodGroups.map((foodGroup: FoodGroupProps) => {
+        const foodList = state.foods.filter((food: FoodProps) => food.foodGroupKey === foodGroup.key)
+        return {
+            key: foodGroup.key,
+            label: foodGroup.label,
+            foodList: foodList
+        }
+    })
+)
 
 export default (state: any, action: any) => {
-    console.log('state', state)
-    console.log('action', action)
+    console.log('STATE', state)
+    console.log('ACTION', action)
     switch (action.type) {
-        case REMOVE_FOOD:
+        case Types.TOGGLE_GROCERIES_MODAL:
             return {
                 ...state,
-                foods: state.foods.filter((food: any) => food.key !== action.payload)
+                groceriesModalVisible: !state.groceriesModalVisible
             }
-        case ADD_FOOD:
+        case Types.TOGGLE_GROCERIES_EDIT_MODE:
+            return {
+                ...state,
+                groceriesEditMode: !state.groceriesEditMode
+            }
+        case Types.GET_GROCERIES:
+            return {
+                ...state,
+                groceryList: formatGroceryList(state)
+            }
+        case Types.ADD_FOOD:
             return {
                 ...state,
                 foods: [...state.foods, action.payload]
             }
-        case GET_GROCERIES:
+        case Types.EDIT_FOOD:
             return {
                 ...state,
-                groceries: state.foodGroups.map((foodGroup: any) => {
-                    const foodList = state.foods.filter((food: any) => food.foodGroupKey === foodGroup.key)
-                    return {
-                        key: foodGroup.key,
-                        label: foodGroup.label,
-                        foodList: foodList
-                    }
+                foods: state.foods.map((food: FoodProps) =>  {
+                    food.key === action.payload.key ? action.payload : food
                 })
+            }
+        case Types.DELETE_FOOD:
+            return {
+                ...state,
+                foods: state.foods.filter((food: FoodProps) => food.key !== action.payload)
             }
         default:
             return state;

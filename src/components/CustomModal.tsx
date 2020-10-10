@@ -1,17 +1,17 @@
 import React from "react";
 import {View, StyleSheet, Modal, ScrollView, Text, TouchableHighlight} from "react-native";
-import AddFoodItemForm from "../screens/groceries/AddFoodItemForm";
 import {COLORS} from "../styles/global";
 
 
 
 export interface CustomModalProps {
     title: string;
+    children: React.ReactNode;
     modalVisible: boolean;
-    setModalVisible: any;
+    setModalVisible: () => void;
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({title, modalVisible, setModalVisible}) =>  {
+const CustomModal: React.FC<CustomModalProps> = ({title,children, modalVisible, setModalVisible}) =>  {
     return (
         <Modal
             animationType="slide"
@@ -25,14 +25,14 @@ const CustomModal: React.FC<CustomModalProps> = ({title, modalVisible, setModalV
                             <Text style={styles.headerText}>{title}</Text>
                             <TouchableHighlight
                                 onPress={() => {
-                                    setModalVisible(!modalVisible);
+                                    setModalVisible();
                                 }}
                             >
                                 <Text style={styles.headerText}>X</Text>
                             </TouchableHighlight>
                         </View>
                         <View style={styles.body}>
-                            <AddFoodItemForm onSubmit={()=>setModalVisible(false)} />
+                            {children}
                         </View>
                     </ScrollView>
                 </View>

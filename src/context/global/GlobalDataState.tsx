@@ -1,55 +1,74 @@
 import React, {useReducer} from "react";
 import GlobalDataContext from './GlobalDataContext'
 import GlobalDataReducer from './GlobalDataReducer'
-import {
-    GET_GROCERIES,
-    GET_ALL_FOODS,
-    GET_FOOD,
-    ADD_FOOD,
-    UPDATE_FOOD,
-    REMOVE_FOOD,
-    GET_ALL_MEALS,
-    GET_MEAL,
-    ADD_MEAL,
-    UPDATE_MEAL,
-    REMOVE_MEAL,
-} from '../types'
-import {DATA} from "../../FakeData";
+import { Types } from '../types'
+import {DATA, FoodProps} from "../../FakeData";
 
 
 const GlobalDataState = (props: any) => {
     const [state, dispatch] = useReducer(GlobalDataReducer, DATA)
 
-    const removeFood = (key: number) => {
+
+    const toggleGroceriesModal = () => {
         dispatch({
-            type: REMOVE_FOOD,
-            payload: key
+            type: Types.TOGGLE_GROCERIES_MODAL,
+            payload: {}
         })
     }
-    const addFood = (food: any) => {
+
+    const toggleGroceriesEditMode = () => {
         dispatch({
-            type: ADD_FOOD,
-            payload: food
+            type: Types.TOGGLE_GROCERIES_EDIT_MODE,
+            payload: {}
         })
     }
 
     const getGroceries = () => {
         dispatch({
-            type: GET_GROCERIES,
+            type: Types.GET_GROCERIES,
             payload: {}
         })
     }
 
+    const addFood = (food: FoodProps) => {
+        dispatch({
+            type: Types.ADD_FOOD,
+            payload: food
+        })
+    }
+
+    const editFood = (food: FoodProps) => {
+        dispatch({
+            type: Types.EDIT_FOOD,
+            payload: food
+        })
+    }
+
+    const deleteFood = (key: string) => {
+        dispatch({
+            type: Types.DELETE_FOOD,
+            payload: key
+        })
+    }
+
+
     return (
         <GlobalDataContext.Provider value={{
-            mealCategory: state.mealCategory,
             foods: state.foods,
             foodGroups: state.foodGroups,
-            meals: state.meals,
-            favoriteMeals: state.favoriteMeals,
-            groceries: state.groceries,
+            groceryList: state.groceryList,
+            groceriesEditMode: state.groceriesEditMode,
+            groceriesModalVisible: state.groceriesModalVisible,
+            toggleGroceriesEditMode,
+            toggleGroceriesModal,
             getGroceries,
             addFood,
+            editFood,
+            deleteFood,
+
+            meals: state.meals,
+            mealCategories: state.mealCategories,
+            favoriteMeals: state.favoriteMeals,
         }}
         >
             {props.children}

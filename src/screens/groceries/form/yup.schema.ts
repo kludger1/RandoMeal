@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import {GroceriesFoodItem} from "./GroceriesScreen";
+import {GroceriesFoodItem} from "../GroceriesScreen";
 
 const groceriesFoodItemSchema = Yup.object<GroceriesFoodItem>().shape({
     name: Yup.string().required(),

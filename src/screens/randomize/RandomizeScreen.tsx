@@ -1,6 +1,6 @@
 import React from "react";
 import {Text, View} from "react-native";
-import ScreenWrapper from "../components/ScreenWrapper";
+import ScreenWrapper from "../../components/ScreenWrapper";
 
 const RandomizeScreen: React.FC = () =>  (
     <ScreenWrapper>

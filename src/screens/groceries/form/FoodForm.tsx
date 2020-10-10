@@ -2,35 +2,54 @@ import React, {useContext} from "react";
 import {StyleSheet, View} from "react-native";
 import {Formik} from "formik";
 import groceriesFoodItemSchema from "./yup.schema";
-import TextField from "../../components/fields/TextInput";
-import Dropdown, {DropdownItemProps} from "../../components/fields/Dropdown";
-import CheckBoxList from "../../components/fields/CheckBoxList";
-import PrimaryButton from "../../components/buttons/PrimaryButton";
-import _ from "lodash";
-import {DATA} from "../../FakeData";
-import GlobalDataContext from "../../context/global/GlobalDataContext";
+import TextField from "../../../components/fields/TextInput";
+import Dropdown, {DropdownItemProps} from "../../../components/fields/Dropdown";
+import CheckBoxList from "../../../components/fields/CheckBoxList";
+import PrimaryButton from "../../../components/buttons/PrimaryButton";
+import {DATA, FoodProps} from "../../../FakeData";
+import GlobalDataContext from "../../../context/global/GlobalDataContext";
+import { v4 as uuid } from 'uuid'
 
 
+export interface FoodFormProps  {
 
-export interface AddFoodItemProps  {
-    onSubmit: any
 }
 
-// {key: 1, name: 'Yogurt', foodGroupKey: 5, calories: 100, mealCategory: [1,2,4]},
-const AddFoodItemForm: React.FC<AddFoodItemProps> = ({onSubmit}) =>  {
-    const {addFood} = useContext(GlobalDataContext)
+
+const FoodForm: React.FC<FoodFormProps> = () =>  {
+    const {addFood, getGroceries, toggleGroceriesModal} = useContext(GlobalDataContext)
+
+    const  initialValue = {
+        key: '',
+        name: '',
+        foodGroupKey: '',
+        calories: '',
+        mealCategoryKeys: null
+    }
+
+    const handleSubmit = (values: FoodProps, actions: { resetForm: () => void; }) => {
+        addFood({...values, key: uuid()})
+        getGroceries()
+        actions.resetForm()
+        toggleGroceriesModal()
+        console.log(values)
+
+    }
+
+
     return (
         <Formik
-            initialValues={{ name: '', foodGroupKey: null, calories: '', mealCategoryKeys: null}}
-            onSubmit={(values, actions) => {
-                actions.resetForm()
-                console.log(values)
-                addFood(values)
-                onSubmit()
-            }}
+            initialValues={initialValue}
+            onSubmit={handleSubmit}
             validationSchema={groceriesFoodItemSchema}
         >
-            {({ handleChange, handleBlur, handleSubmit, values, setFieldValue, errors }) => (
+            {({
+                  handleChange,
+                  handleBlur,
+                  handleSubmit, values,
+                  setFieldValue,
+                  errors
+            }) => (
                 <>
                     <TextField
                         label="Name"
@@ -80,4 +99,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddFoodItemForm
+export default FoodForm

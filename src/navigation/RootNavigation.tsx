@@ -4,9 +4,9 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {ROUTES} from "../routes";
 import {COLORS} from "../styles/global";
 import GroceriesScreen from "../screens/groceries/GroceriesScreen";
-import RandomizeScreen from "../screens/RandomizeScreen";
-import MealPlanScreen from "../screens/MealPlanScreen";
-import FavoritesScreen from "../screens/FavoritesScreen";
+import RandomizeScreen from "../screens/randomize/RandomizeScreen";
+import MealPlanScreen from "../screens/mealPlanner/MealPlanScreen";
+import FavoritesScreen from "../screens/favorites/FavoritesScreen";
 
 const Tab = createBottomTabNavigator();
 

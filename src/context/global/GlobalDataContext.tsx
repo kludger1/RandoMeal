@@ -1,6 +1,6 @@
 import {createContext} from "react";
-import {DATA} from "../../FakeData";
+import {GlobalDataProps} from "../../FakeData";
 
-const GlobalDataContext = createContext(DATA);
+const GlobalDataContext = createContext({} as GlobalDataProps);
 
 export default GlobalDataContext

@@ -6,7 +6,7 @@ import FieldErrorMessage from "./FieldErrorMessage";
 
 export interface DropdownProps  {
     label: string;
-    defaultValueKey: number | null;
+    defaultValueKey: string;
     options: DropdownItemProps[];
     onValueChange: any;
     placeHolder?: string;
@@ -14,7 +14,7 @@ export interface DropdownProps  {
 
 }
 export interface DropdownItemProps  {
-    key: number;
+    key: string;
     label: string;
     value: string | number;
 }
@@ -84,7 +84,7 @@ const Dropdown: React.FC<DropdownProps> =
             onValueChange(item.key)
         }
 
-        const fetchItem = (key: number) => {
+        const fetchItem = (key: string) => {
             return options.find(item => item.key === key);
         }
 

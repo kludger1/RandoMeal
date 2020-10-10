@@ -6,13 +6,12 @@ import FieldLabel from "./FieldLabel";
 export interface CheckBoxListProps {
     label: string;
     options: CheckBoxItemProps[];
-    defaultKeys: number[] | null;
+    defaultKeys: string[] | null;
     onValueChange: any;
 }
 
 const CheckBoxList: React.FC<CheckBoxListProps> = ({label, options, defaultKeys, onValueChange}) =>  {
-
-    const formatDefaultOptions = (keys: number[]) => {
+    const formatDefaultOptions = (keys: string[]) => {
         return options.map((item, index) => {
             return item.key === keys[index] ? {...item, checked: true} : {...item, checked: false}
         })
@@ -22,7 +21,7 @@ const CheckBoxList: React.FC<CheckBoxListProps> = ({label, options, defaultKeys,
     const [currentList, setCurrentList] = useState<CheckBoxItemProps[]>(defaultOptions || options)
 
     const updateList = (checkboxItem: CheckBoxItemProps) => {
-        const checkedKeys: number[] = []
+        const checkedKeys: string[] = []
 
         const updatedList = currentList.map(currentListItem => {
             if(currentListItem.key === checkboxItem.key) {

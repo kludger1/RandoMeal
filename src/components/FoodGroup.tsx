@@ -1,20 +1,21 @@
 import React from "react";
 import {Text, View, StyleSheet} from "react-native";
 import {COLORS} from "../styles/global";
-import FoodItem, {FoodItemProps} from "./FoodItem";
+import Food from "./Food";
+import {FoodProps} from "../FakeData";
 
-export interface FoodGroupProps {
+export interface FoodGroupComponentProps {
     label: string;
-    foodList: FoodItemProps[];
+    foodList: FoodProps[];
 }
 
-const FoodGroup: React.FC<FoodGroupProps> = ({label, foodList}) =>  (
+const FoodGroup: React.FC<FoodGroupComponentProps> = ({label, foodList}) =>  (
     <View style={styles.wrapper}>
         <View style={styles.header}>
             <Text style={styles.label}>{label}</Text>
         </View>
         {foodList.map((item) => (
-            <FoodItem key={item.key} name={item.name}/>
+            <Food key={item.key} foodKey={item.key} name={item.name}/>
         ))}
     </View>
 )
