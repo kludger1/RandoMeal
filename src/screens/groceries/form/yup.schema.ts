@@ -1,11 +1,12 @@
 import * as Yup from 'yup'
-import {GroceriesFoodItem} from "../GroceriesScreen";
+import {FoodProps} from "../../../FakeData";
 
-const groceriesFoodItemSchema = Yup.object<GroceriesFoodItem>().shape({
+const groceriesFoodSchema = Yup.object<FoodProps>().shape({
+    key: Yup.string().required(),
     name: Yup.string().required(),
-    foodGroupKey: Yup.number().required(),
+    foodGroupKey: Yup.string().required(),
     calories: Yup.number().required(),
-    mealCategoryKeys: Yup.array().of(Yup.number()).required(),
+    mealCategoryKeys: Yup.array().of(Yup.string()).required(),
 });
 
-export default groceriesFoodItemSchema
+export default groceriesFoodSchema

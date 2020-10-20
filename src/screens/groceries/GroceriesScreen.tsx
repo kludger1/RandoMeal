@@ -1,5 +1,5 @@
 import React, {useContext, useEffect,} from "react";
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import FoodGroup from "../../components/FoodGroup";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import CustomModal from "../../components/CustomModal";
@@ -7,22 +7,6 @@ import GlobalDataContext from "../../context/global/GlobalDataContext";
 import FoodForm from "./form/FoodForm";
 import _ from "lodash";
 
-export interface GroceriesFoodItem {
-    name: string;
-    foodGroup: [{
-        key: string;
-        label: string;
-        value: string;
-    }]
-    calories: string;
-    meal: [{
-        key: string;
-        label: string;
-        value: string;
-        checked: boolean
-    }]
-
-}
 // interface GroceriesScreenProps {
 //
 // }
@@ -52,24 +36,25 @@ const GroceriesScreen: React.FC = () =>  {
         getGroceries()
     }, [])
 
-
-
-
     return (
         <ScreenWrapper>
-            <View style={styles.wrapper}>
-                <View style={styles.header}>
-                    <View style={styles.headerButtons}>
-                        <TouchableOpacity onPress={toggleGroceriesModal}><Text>Add</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={toggleGroceriesEditMode}><Text>Edit</Text></TouchableOpacity>
+                <ScrollView style={styles.wrapper}>
+                    <View style={styles.header}>
+                        <View style={styles.headerButtons}>
+                            <TouchableOpacity style={styles.tempBg} onPress={toggleGroceriesModal}>
+                                <Text>Add</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.tempBg} onPress={toggleGroceriesEditMode}>
+                                <Text>Edit</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-                <FlatList
-                    data={groceryList}
-                    renderItem={({item}) => <FoodGroup label={item.label} foodList={item.foodList}/>}
-                    keyExtractor={item => item.key}
-                />
-            </View>
+                    <FlatList
+                        data={groceryList}
+                        renderItem={({item}) => <FoodGroup label={item.label} foodList={item.foodList}/>}
+                        keyExtractor={item => item.key}
+                    />
+                </ScrollView>
             <CustomModal title={headerTitle} modalVisible={groceriesModalVisible} closeModal={handleCloseModal}>
                 <FoodForm/>
             </CustomModal>
@@ -78,11 +63,17 @@ const GroceriesScreen: React.FC = () =>  {
 }
 
 const styles = StyleSheet.create({
+    tempBg: {
+      backgroundColor: 'green',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        marginHorizontal: 10
+    },
     wrapper: {
-        flex: 1
+        paddingHorizontal: 20
     },
     header: {
-        alignItems: "flex-end",
+        // alignItems: "flex-end",
         marginVertical: 20
     },
     headerButtons: {

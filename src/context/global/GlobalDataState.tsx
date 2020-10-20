@@ -2,7 +2,8 @@ import React, {useReducer} from "react";
 import GlobalDataContext from './GlobalDataContext'
 import GlobalDataReducer from './GlobalDataReducer'
 import { Types } from '../types'
-import {DATA, FoodProps} from "../../FakeData";
+import {DATA, FoodProps, MealProps} from "../../FakeData";
+import {RandomizeFormValuesProps} from "../../screens/randomize/form/RandomizeForm";
 
 
 const GlobalDataState = (props: any) => {
@@ -58,6 +59,27 @@ const GlobalDataState = (props: any) => {
         })
     }
 
+    const randomizeMeal = (formValues: RandomizeFormValuesProps) => {
+        dispatch({
+            type: Types.RANDOMIZE_MEALS,
+            payload: formValues
+        })
+    }
+
+    const addFavoriteMeal = (meal: MealProps) => {
+        dispatch({
+            type: Types.ADD_FAVORITE_MEAL,
+            payload: meal
+        })
+    }
+
+    const removeFavoriteMeal = (key: string) => {
+        dispatch({
+            type: Types.REMOVE_FAVORITE_MEAL,
+            payload: key
+        })
+    }
+
 
     return (
         <GlobalDataContext.Provider value={{
@@ -74,6 +96,11 @@ const GlobalDataState = (props: any) => {
             addFood,
             editFood,
             deleteFood,
+
+            randomMealChoices: state.randomMealChoices,
+            randomizeMeal,
+            addFavoriteMeal,
+            removeFavoriteMeal,
 
             meals: state.meals,
             mealCategories: state.mealCategories,

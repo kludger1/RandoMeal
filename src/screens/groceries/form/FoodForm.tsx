@@ -1,13 +1,14 @@
 import React, {useContext} from "react";
 import {StyleSheet, View} from "react-native";
 import {Formik} from "formik";
-import groceriesFoodItemSchema from "./yup.schema";
+import groceriesFoodSchema from "./yup.schema";
 import TextField from "../../../components/fields/TextInput";
 import Dropdown, {DropdownItemProps} from "../../../components/fields/Dropdown";
 import CheckBoxList from "../../../components/fields/CheckBoxList";
 import PrimaryButton from "../../../components/buttons/PrimaryButton";
 import {DATA, FoodProps} from "../../../FakeData";
 import GlobalDataContext from "../../../context/global/GlobalDataContext";
+import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid'
 import _ from "lodash";
 
@@ -42,11 +43,10 @@ const FoodForm: React.FC<FoodFormProps> = () =>  {
 
     const handleSubmit = (values: FoodProps, actions: { resetForm: () => void; }) => {
         editFormMode ? editFood(values) :  addFood({...values, key: uuid()})
+        editFormMode && toggleGroceriesEditMode()
         getGroceries()
         actions.resetForm()
-        toggleGroceriesEditMode()
         toggleGroceriesModal()
-        console.log(values)
 
     }
 
@@ -55,7 +55,7 @@ const FoodForm: React.FC<FoodFormProps> = () =>  {
         <Formik
             initialValues={editFormMode ? selectedFood : initialValue}
             onSubmit={handleSubmit}
-            validationSchema={groceriesFoodItemSchema}
+            validationSchema={groceriesFoodSchema}
         >
             {({
                   handleChange,

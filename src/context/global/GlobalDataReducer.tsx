@@ -1,6 +1,9 @@
 import { Types } from '../types'
 import {FoodGroupProps, FoodProps, GlobalDataProps} from "../../FakeData";
+import {RandomizeFormValuesProps} from "../../screens/randomize/form/RandomizeForm";
 
+import 'react-native-get-random-values';
+import { v4 as uuid } from 'uuid'
 
 const formatGroceryList = (state: GlobalDataProps) => (
     state.foodGroups.map((foodGroup: FoodGroupProps) => {
@@ -12,6 +15,31 @@ const formatGroceryList = (state: GlobalDataProps) => (
         }
     })
 )
+
+const chooseRandomMeals = (state: GlobalDataProps, values: RandomizeFormValuesProps) => {
+    const chosenFoods: FoodProps[] = []
+    const passedFilter = state.foods.filter((food: FoodProps) => (
+        food.mealCategoryKeys?.includes(values.mealCategoryKey) && values.foodGroupKeys?.includes(food.foodGroupKey)
+    ))
+
+    for(let i = 0; i < values.foodAmount; i++) {
+        let randomIndex = Math.floor(Math.random() * passedFilter.length)
+        chosenFoods.push(passedFilter[randomIndex])
+        passedFilter.splice(randomIndex, 1);
+    }
+
+    return [
+        ...state.randomMealChoices,
+        {
+            key: uuid(),
+            week: null,
+            day: null,
+            mealCategory: values.mealCategoryKey,
+            foodList: chosenFoods,
+            favorite: false
+        }
+    ]
+}
 
 export default (state: any, action: any) => {
     console.log('STATE', state)
@@ -60,6 +88,23 @@ export default (state: any, action: any) => {
             return {
                 ...state,
                 foods: state.foods.filter((food: FoodProps) => food.key !== action.payload)
+            }
+
+            case Types.RANDOMIZE_MEALS:
+            return {
+                ...state,
+                randomMealChoices: chooseRandomMeals(state, action.payload)
+            }
+
+        case Types.ADD_FAVORITE_MEAL:
+            return {
+                ...state,
+                favoriteMeals:  [...state.favoriteMeals, action.payload]
+            }
+        case Types.REMOVE_FAVORITE_MEAL:
+            return {
+                ...state,
+                randomMealChoices: chooseRandomMeals(state, action.payload)
             }
         default:
             return state;
