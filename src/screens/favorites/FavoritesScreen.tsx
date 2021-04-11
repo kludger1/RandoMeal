@@ -7,25 +7,25 @@ import ScreenWrapper from "../../components/ScreenWrapper";
 
 
 const FavoritesScreen: React.FC = () =>  {
-    const {favoriteMeals} = useContext(GlobalDataContext)
-    console.log('favoriteMeals', favoriteMeals)
-    return (
-        <ScreenWrapper>
-            <View style={styles.wrapper}>
-                <FlatList
-                    data={favoriteMeals}
-                    renderItem={({item}) => <MealDisplay key={item.key} meal={item}/>}
-                    keyExtractor={item => item.key}
-                />
-            </View>
-        </ScreenWrapper>
-    );
+  const {favoriteMeals} = useContext(GlobalDataContext)
+  console.log('favoriteMeals', favoriteMeals)
+  return (
+    <ScreenWrapper>
+      <View style={styles.wrapper}>
+        <FlatList
+          data={favoriteMeals}
+          renderItem={({item}) => <MealDisplay key={item.key} meal={item}/>}
+          keyExtractor={item => item.key}
+        />
+      </View>
+    </ScreenWrapper>
+  );
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
-        paddingHorizontal: 20,
-        flex: 1
-    },
+  wrapper: {
+    paddingHorizontal: 20,
+    flex: 1
+  },
 });
 export default FavoritesScreen

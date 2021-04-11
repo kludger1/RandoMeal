@@ -7,9 +7,9 @@ import GlobalDataState from "./src/context/global/GlobalDataState";
 
 
 const App: React.FC = () =>  (
-    <GlobalDataState>
-        <RootNavigation/>
-    </GlobalDataState>
+  <GlobalDataState>
+    <RootNavigation/>
+  </GlobalDataState>
 );
 
 // const styles = StyleSheet.create({
